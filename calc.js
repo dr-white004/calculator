@@ -1,123 +1,73 @@
-//global variable
-populateNumber = '';
-recognizeNumber= '';
-holder = ''; 
-h= '';
-answer= '';
+const buttons = document.querySelectorAll('.btn');
+const displayMain = document.querySelector('.active');
+const displaySecondary = document.querySelector('.passive');
+let currValue = '';
+let prevValue = '';
+let operation = null;
 
-// storing all variables in javascript
-let number = document.querySelectorAll(".number") ;
-let operate = document.querySelectorAll(".operate");
-let equal = document.querySelector(".equal");
-let clear = document.querySelector(".clear");
-let point = document.querySelector(".point");
-
-let passive =document.querySelector(".passive");
-let active =document.querySelector(".active");
-
-//function to populate
-number.forEach((num) => num.addEventListener("click", function(e){
-   populate(e.target.textContent)
-   active.textContent = populateNumber;
-}))
-
-function populate(pop){
-    if(populateNumber.length < 7){
-     populateNumber += pop;}
-  }
-
-// choose operator
-operate.forEach((oper) => oper.addEventListener("click", function(e){
-   h = e.target.textContent;
-   deal(e.target.textContent);
-}))
-
-function deal(oper){
- handler = oper;
- recognizeNumber = populateNumber;
- passive.textContent = recognizeNumber + '' + handler;
-  populateNumber = "";
-  active.textContent = '';  
+function updateDisplay() {
+    displayMain.textContent = currValue || '0';
+    displaySecondary.textContent = prevValue + ' ' + (operation || '');
 }
 
-equal.addEventListener("click", () => {
-  if (recognizeNumber != '' && populateNumber != '' ) 
-       operateFunc(h,recognizeNumber,populateNumber)
-       display();
-  });
-
-function display(){
-  passive.textContent = "";
-  answer = round(answer)
-  answer = answer.toString();
-  b = answer.slice(0, 7) +'...' ;
-  if (answer.length <=7 ){
-  active.textContent = answer;
-  }
-  else{
-    active.textContent = b;
-  }  
-}
-function round (ans){
-  return Math.round(ans * 1000) / 1000;
+function clearAll() {
+    currValue = '';
+    prevValue = '';
+    operation = null;
+    updateDisplay();
 }
 
-// creating calculation functions
-  function add(a, b) {
-    answer = a + b ;
-    return answer;
-  }
+function addNumber(num) {
+    if (num === '.' && currValue.includes('.')) return;
+    currValue += num;
+    updateDisplay();
+}
 
-  function substract(a, b) {
-    answer = a - b ;
-    return answer;
-  }
-  
-  function multiply(a, b) {
-    answer = a * b;
-    return answer;
-  }
-  
-  function divide(a, b) {
-    answer = a / b;
-    return answer
-  }
+function selectOperation(op) {
+    if (currValue === '') return;
+    if (prevValue !== '') calculate();
+    operation = op;
+    prevValue = currValue;
+    currValue = '';
+    updateDisplay();
+}
 
- //operate function
-  function operateFunc(operator, a, b) {
-    a = Number(a)
-    b = Number(b)
-    switch (operator) {
-      case '+':
-        return add(a, b)
-      case '-':
-        return substract(a, b)
-      case '*':
-        return multiply(a, b)
-      case '/':
-        if (b === 0) return null
-        else return divide(a, b)
-      default:
-        return null
-    }
-  }
+function calculate() {
+    let result;
+    const firstNum = parseFloat(prevValue);
+    const secondNum = parseFloat(currValue);
+    if (isNaN(firstNum) || isNaN(secondNum)) return;
 
-  clear.addEventListener("click", () => {
-    populateNumber = '';
-    recognizeNumber= '';
-    holder = ''; 
-    h= '';
-    answer='';
-    passive.textContent = "";
-    active.textContent = 0;  
+    if (operation === '+') result = firstNum + secondNum;
+    if (operation === '-') result = firstNum - secondNum;
+    if (operation === '*') result = firstNum * secondNum;
+    if (operation === '/') result = secondNum !== 0 ? firstNum / secondNum : 'Error';
+
+    currValue = result;
+    operation = null;
+    prevValue = '';
+    updateDisplay();
+}
+
+function handleKey(e) {
+    const key = e.key;
+    if (!isNaN(key) || key === '.') addNumber(key);
+    if (['+', '-', '*', '/'].includes(key)) selectOperation(key);
+    if (key === 'Enter' || key === '=') calculate();
+    if (key === 'Backspace') currValue = currValue.slice(0, -1);
+    if (key === 'Escape') clearAll();
+    updateDisplay();
+}
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (button.classList.contains('number')) addNumber(button.textContent);
+        if (button.classList.contains('operate')) selectOperation(button.textContent);
+        if (button.classList.contains('equal')) calculate();
+        if (button.classList.contains('clear')) clearAll();
     });
-  
-    point.addEventListener("click", () => {
-      console.log('me')
-     containDot();
-    });
+});
 
-    function containDot(){
-      if(!populateNumber.includes(".")){
-       populateNumber += ".";}
-    }
+document.addEventListener('keydown', handleKey);
+
+updateDisplay();

@@ -1,60 +1,112 @@
-
-body{
+body {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 250vh;
-    height:100vh;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
 }
 
-.container{
+.container {
     display: flex;
-    flex-direction: column;  
-    background-color: tomato; 
-    padding: 5px;
-}
-.btn{
-    height: 55px;
-    width: 50px;
-    gap: 15px;
-    margin: 5px;
-    padding: 4px;
-    border-radius: 10px;
-}
-.btn:hover{
-    background-color: aqua;
-    
-}
-.btn.operate:hover{
-    background-color: blue;
-}
-.operate{
-    border: 1px solid tomato;
+    flex-direction: column;
+    background-color: #ff6347;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.top{
+.top {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.screen{
-    background-color: aliceblue;
-    border: 2px solid pink;
-    width: 180px;
-    border-radius: 3px;
-    height: 55px;
-    margin: 5px;
+
+.screen {
+    background-color: #ffffff;
+    border: 2px solid #ff6347;
+    width: 220px;
+    border-radius: 8px;
+    height: 60px;
+    margin: 10px 0;
+    padding: 5px 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: flex-end;
+    color: #333;
 }
-.passive{
- font-size: 15px;
-}
-.active{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 25px;
 
+.passive {
+    font-size: 14px;
+    color: #888;
+}
+
+.active {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.btn {
+    height: 55px;
+    width: 55px;
+    margin: 5px;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: #f0f0f0;
+}
+
+.btn:active {
+    background-color: #e0e0e0;
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn.operate {
+    background-color: #ffa07a;
+    color: #fff;
+}
+
+.btn.operate:hover {
+    background-color: #ff7f50;
+}
+
+.btn.operate:active {
+    background-color: #ff6347;
+}
+
+.btn.clear {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+.btn.clear:hover {
+    background-color: #ff4b3a;
+}
+
+.btn.equal {
+    background-color: #48c774;
+    color: #fff;
+}
+
+.btn.equal:hover {
+    background-color: #32a062;
+}
+
+.first, .second, .third, .forth {
+    display: flex;
+    justify-content: center;
 }
